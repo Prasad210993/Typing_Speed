@@ -1,0 +1,134 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+body{
+    background-color: rgb(225, 225, 0);
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.container .textArea #randomText{
+    /* border: 1px solid red; */
+    /* background-color:rgb(250, 250, 0); ; */
+    width: 75%;
+    margin: auto;
+    padding-bottom: 15px;
+}
+
+.heading{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    /* border: 1px solid red; */
+}
+
+.heading h1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 18%;
+}
+
+.heading .showTime{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 2.5rem;
+    background-color: white;
+    border: 2px solid darkorchid;
+    border-radius: 50%;
+}
+
+.container textarea{
+    border-radius: 6px;
+    font-size: 18px;
+    padding: 10px;
+}
+
+.container .buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container #bnDone{
+    display: none;
+    margin:0 10px;
+}
+
+.container #refresh{
+    /* display: none; */
+}
+
+.textArea p{
+    font-size: 20px;
+    margin: 11px 0;
+    /* background-color: rgb(200, 200, 200); */
+    border-radius: 4px;
+}
+
+.container .buttons button{
+    cursor: pointer;
+    width: 90px;
+    height: 35px;
+    background-color: darkorchid;
+    color: white;
+    font-size: 18px;
+    border-radius: 6px;
+}
+
+.container #result{
+    /* border: 1px solid red; */
+    width: 75%;
+    margin: auto;
+    padding: 15px;
+}
+
+.maintainResult{
+    /* border:1px solid red; */
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 50%;
+}
+
+.maintainResult button:first-child{
+    display: none;
+    cursor: pointer;
+    width: 100%;
+    height: 35px;
+    background-color: greenyellow;
+    color: white;
+    font-size: 18px;
+    border-radius: 6px;
+}
+
+
+.maintainResult button:last-child{
+    display: none;
+    cursor: pointer;
+    width: 50px;
+    height: 35px;
+    background-color:greenyellow;
+    color: #181818;
+    font-size: 18px;
+    border-radius: 6px;
+}
+
+/* .maintainResult #close{
+    border:1px solid red;
+    width: 5px;height: 2px;
+    display: none;
+    border-radius:50%;
+} */

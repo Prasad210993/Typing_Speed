@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="type.css">
+    <title>Typing Test</title>
+</head>
+<body>
+    <div class="container">
+        <div class="textArea">
+            <div class="heading">
+                <h1>Test Your speed</h1>
+                <p class="showTime">1:00</p>
+            </div>
+            <p id="randomText"></p>
+            <textarea id="textip" cols="80" rows="8" ></textarea>
+            <p id="result"></p>
+            <div class="buttons">
+                <button id="bnDone" onclick="myFun();">Done</button>
+                <button id="refresh" onclick="refresh1();" >Refresh</button>
+            </div>
+        </div>
+        <div class="maintainResult">
+            <button id="showProgress">Progress</button>
+            <button id="close">X</button>
+        </div>
+        <p id="pro"></p>
+    </div>
+
+    <script src="type.js"></script>
+</body>
+</html>
