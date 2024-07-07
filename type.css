@@ -9,6 +9,10 @@ body{
 }
 
 .container{
+    width: 1200px;
+    margin: 0 auto;
+    /* padding: 20px; */
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,12 +21,19 @@ body{
     height: 100vh;
 }
 
+.resize{
+    display: none;
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+}
+
 .container .textArea #randomText{
-    /* border: 1px solid red; */
-    /* background-color:rgb(250, 250, 0); ; */
+    /* border: 2px solid rgb(197, 211, 7); */
+    /* background-color:rgb(197, 210, 0); ; */
     width: 75%;
     margin: auto;
-    padding-bottom: 15px;
+    padding:5px 0 15px;
 }
 
 .heading{
@@ -67,10 +78,6 @@ body{
     margin:0 10px;
 }
 
-.container #refresh{
-    /* display: none; */
-}
-
 .textArea p{
     font-size: 20px;
     margin: 11px 0;
@@ -96,11 +103,15 @@ body{
 }
 
 .maintainResult{
-    /* border:1px solid red; */
+    /* display: none; */
+    /* position: relative; */
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
-    width: 50%;
+    /* flex-direction: column; */
+    width: 75%;
+    height: 10vh;
+    margin-bottom: 15px;
 }
 
 .maintainResult button:first-child{
@@ -108,20 +119,35 @@ body{
     cursor: pointer;
     width: 100%;
     height: 35px;
-    background-color: greenyellow;
-    color: white;
+    background-color:rgb(14, 202, 7);
+    border-color: rgb(14, 202, 7
+    );
+    color: #fff;
     font-size: 18px;
     border-radius: 6px;
 }
 
+.maintainResult #chartContainer{
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    display: none;
+    width: 300px;
+}
 
-.maintainResult button:last-child{
+.maintainResult button:last-child{ 
+    position: relative;
+    /* top: 1%;  */
+    bottom: 250%;
+    right: -19%;
     display: none;
     cursor: pointer;
     width: 50px;
     height: 35px;
-    background-color:greenyellow;
-    color: #181818;
+    background-color:rgb(14, 202, 7);
+    border-color: rgb(14, 202, 7
+    );
+    color: #fff;
     font-size: 18px;
     border-radius: 6px;
 }
@@ -132,3 +158,30 @@ body{
     display: none;
     border-radius:50%;
 } */
+
+
+#reset{
+    position: absolute;
+    bottom: 1%;
+    /* right: 0%; */
+    cursor: pointer;
+    width: 70px;
+    height: 35px;
+    background-color:rgb(14, 202, 7);
+    border-color: rgb(14, 202, 7
+    );
+    color: #fff;
+    font-size: 18px;
+    border-radius: 6px;
+    display: none;
+    margin: 15px;
+}
+
+@media screen and (max-width:1199px){
+    .container{
+        display: none;
+    }
+    /* .resize{
+        display: block;
+    } */
+}

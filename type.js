@@ -6,11 +6,17 @@ let refresh = document.querySelector("#refresh");
 let cntTime = document.querySelector('.showTime');
 
 let progress = document.querySelector('#showProgress');
+let chart = document.querySelector('#chartContainer');
 let close1 = document.querySelector('#close');
 let pro = document.querySelector('#pro');
 let textArea = document.querySelector('.textArea');
+let resize = document.querySelector('.resize');
 
-let startTime, endtime, completeTime, speed, wordLen,rText,data,sentence,ans,score;
+let startTime, endtime, completeTime, speed, wordLen, rText, data, sentence, ans, score;
+
+var upVal=JSON.parse(localStorage.getItem('jsonArry')) || [];
+
+let ySpeed = [];
 
 let startMin = 1;
 let t = startMin * 60;
@@ -20,9 +26,6 @@ function updateCount() {
     const min = Math.floor(t / 60);
     let sec = t % 60;
     if (min != 0 || sec != 0) {
-        // if(sec<=5){
-        //     sec.style.color("red");
-        // }
         sec = sec < 1 ? '0' + sec : sec;
         cntTime.innerHTML = `${min}:${sec}`;
         t--;
@@ -33,10 +36,6 @@ function updateCount() {
         // alert("Done!")
         myFun();
         textip.blur();
-        // if (status1.innerText == 'Active') {
-        //     status1.innerText = 'Not Active';
-        //     textip.blur();
-        // }
     }
 }
 
@@ -51,20 +50,19 @@ function resetAll() {
     textip.value = "";
     completeTime = 0;
     speed = 0;
-    
     randomText.innerHTML = "";
     clearInterval(intervalID);
 }
 
-function accuracy(word){
+function accuracy(word) {
     // console.log(word);
     let num = 0;
     sentence = randomText.innerHTML;
-    sentence = sentence.trim().split(' ').filter(char=> char !=='');
+    sentence = sentence.trim().split(' ').filter(char => char !== '');
     // console.log(sentence);
-    for (let i=0; i<word.length; i++){
-        if(word[i]===sentence[i]){
-            num++; 
+    for (let i = 0; i < word.length; i++) {
+        if (word[i] === sentence[i]) {
+            num++;
         }
     }
     return num;
@@ -72,40 +70,50 @@ function accuracy(word){
 
 function calculationTime() {
     let word1 = textip.value.trim();
-    let wordLen1 = word1===''? 0 : word1.split(' ');
+    let wordLen1 = word1 === '' ? 0 : word1.split(' ');
 
     wordLen = accuracy(wordLen1);
-    
-    while(true){
-        if(wordLen1<1){
+
+    while (true) {
+        if (wordLen1 < 1) {
             result.innerHTML = `You did not typed anything.. Try again..!`;
             break;
         }
-        else{
-            ans = Math.floor((wordLen/wordLen1.length)*100);
-    
+        else {
+            ans = Math.floor((wordLen / wordLen1.length) * 100);
+
             completeTime = Math.floor((endtime - startTime) / 1000);
             speed = Math.floor((wordLen / completeTime) * 60);
-    
-            result.innerHTML = `Your typing speed is ${speed} WPM and you wrote ${wordLen} correct word out of ${wordLen1.length} total words. Accuracy is ${ans}% & time taken ${completeTime} sec.`;
-        
-            score = {'speed':speed,'acu':ans};
-            localStorage.setItem('score',JSON.stringify(score));
-        
-            let x = JSON.parse(localStorage.getItem('score'));
 
-            
-            console.log(x);
-            
-            // console.log(x.acu);
+            result.innerHTML = `Your typing speed is ${speed} WPM and you wrote ${wordLen} correct word out of ${wordLen1.length} total words. Accuracy is ${ans}% & time taken ${completeTime} sec.`;
+
+            score = { 'speed': speed, 'acu': ans };
+            // localStorage.setItem('score',JSON.stringify(score));
+
+            localS(score);
+            // console.log(upVal.length);
             break;
         }
-        
     }
-
 }
 
+// adding/updating localStorage value;
+function localS(s) {
+    upVal = JSON.parse(localStorage.getItem('jsonArry')) || [];
+    console.log(upVal);
+    window.upVal.push(score);
+
+    let {'speed':s1,'acu':a} = score;
+    ySpeed.push(s1);
+    // console.log(ySpeed);
+
+    localStorage.setItem('jsonArry', JSON.stringify(upVal));
+
+}
+// console.log(upVal.length);
+
 const myFun = () => {
+    let cnt = 1;
     let time = new Date()
     endtime = time.getTime();
     calculationTime();
@@ -115,10 +123,14 @@ const myFun = () => {
     cntTime.innerHTML = '--:--';
     btnDone.style.display = 'none';
     refresh.style.display = 'none';
-    progress.style.display ='block';
+    progress.style.display = 'block';
     textip.addEventListener('focus', () => {
-        fetchRandomText();
-        progress.style.display ='none';
+        if(cnt===1){
+            fetchRandomText();
+            // console.log("wroking in side myFun",++cnt);
+            progress.style.display = 'none';
+            cnt = 0;
+        }
     })
 }
 
@@ -129,12 +141,10 @@ function refresh1() {
     clearInterval(intervalID);
     textip.value = "";
     fetchRandomText();
+    console.log("wroking in side refresh1");
     btnDone.style.display = 'none';
 }
 
-const showData = () => {
-    fetchRandomText();
-}
 
 const startTimer = () => {
     intervalID = setInterval(updateCount, 1000);
@@ -144,6 +154,7 @@ const startTimer = () => {
 
 // code for textarea is active
 fetchRandomText();
+// console.log("wroking before textArea ");
 textip.addEventListener('focus', () => {
     // status1.innerText = 'Active';
     btnDone.style.display = 'block';
@@ -152,65 +163,91 @@ textip.addEventListener('focus', () => {
     result.innerHTML = '';
 })
 
-// function open(){
-//     //
-// }
 
-let jsonArry = [];
-
-// jsonArry.push({speed,ans});
-
-// let jsonStr = JSON.stringify(jsonArry);
-// console.log(speed);
-
-
-// // localStorage.setItem('score',JSON.stringify(score));
-
-progress.addEventListener('click',()=>{
+progress.addEventListener('click', () => {
     let x = JSON.parse(localStorage.getItem('score'));
     // console.log(x.acu);
-    textArea.style.display='none';
-    close1.style.display='block';
-    pro.innerHTML = `your speed is ${x.speed} and Accuracy is ${x.acu}.`;
+    textArea.style.display = 'none';
+    progress.style.display = 'none';
+    close1.style.display = 'block';
+    re = document.querySelector('#reset');
+    re.style.display = 'block';
+    re.onclick = function () {
+        localStorage.clear();
+        pro.innerHTML = '';
+    }
+    close1.addEventListener('click', () => {
+        window.location.reload();
+    })
+    chart.style.display='block';
+    // chart.style.display='block';
+    // pro.style.display='none';
 
+    // showing accuracy and spped
+
+    // for (let i = 0; i < upVal.length; i++) {
+    //     const obj = upVal[i];
+    //     const p = document.createElement('p');
+    //     p.textContent = `speed is ${obj.speed} and Accurcy is ${obj.acu}.`;
+    //     p.style.border = "1px solid red";
+    //     pro.appendChild(p);
+    // }
 })
 
-async function fetchRandomText(){
-    try{
+
+
+async function fetchRandomText() {
+    try {
         const respones = await fetch('https://baconipsum.com/api/?type=meat-and-filler');
         data = await respones.json();
         rText = Math.floor(Math.random() * data.length);
         randomText.innerHTML = data[rText];
+        // console.log("wroking in side fetchRandomText");
     }
-    catch(error){
-        console.error('Fetch error:',error);
-        randomText.textContent='Failed to fetch random text.'
+    catch (error) {
+        console.error('Fetch error:', error);
+        randomText.textContent = 'Failed to fetch random text.'
     }
 }
 
+// var dataPoints = 
+// console.log(upVal.length);
 
-// adding eventlistner to btn so we can active textarea
-// btn.addEventListener("click",function(){
-//     switch(btn.innerText.toLowerCase()){
-//         case 'start':
-//             intervalID=setInterval(updateCount,1000);
-//             let time = new Date()
-//             startTime = time.getTime();
-//             btn.innerText='done';
-//             textip.disabled=false;
-//             refresh.disabled=false;
-//             result.innerHTML = '';
-//             showData();
-//             refresh1();
-//             break;
+// Chart
+window.onload = function () {
 
-//         case 'done':
-//             btn.innerText='start';
-//             textip.disabled=true;
-//             refresh.disabled=true;
-//             myFun();    
-//             break;            
-//     }     
-// })
+    var chartData = {
+        animationEnabled: true,
+        theme: "light2",
+        title: {
+            text: "Speeds"
+        },
+        data: [{
+            type: "line",
+            indexLabelFontSize: 16,
+            dataPoints: []
+        }]
+    };
+    // global upVal;
+    console.log(upVal);
+    for (let i = 0; i <window.upVal.length; i++) {
+        const obj = upVal[i];
+        chartData.data[0].dataPoints.push({ y: obj.acu });
+    }
+
+    var chart = new CanvasJS.Chart("chartContainer", chartData);
+    chart.render();
+
+}
 
 
+// Only for fullscreen use
+window.addEventListener('load',function(){
+    if(window.innerWidth<1200){
+        resize.style.display='block';
+    }
+    else{
+        resize.style.display='none';
+        
+    }
+})
